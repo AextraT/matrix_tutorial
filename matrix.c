@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include <assert.h>
 #include "matrix.h"
 
 #define PRINT_PRECISION "6"
@@ -65,6 +66,38 @@ matrix matrix_add(matrix m, matrix n)
       *matrix_get(res, i, j) = *matrix_get(m, i, j) + *matrix_get(n, i, j);
 
   return res;
+}
+
+matrix mult(matrix A, matrix B) {
+    assert(A.n2 == B.n1);
+
+    matrix M = matrix_create(A.n1, B.n2, 0);
+    
+    for (unsigned int i = 0; i < M.n1; i++)
+        for (unsigned int j = 0; j < M.n2; j++)
+            for (unsigned int k = 0; k < A.n2; k++)
+                *matrix_get(M, i, j) += *matrix_get(A, i, k) * *matrix_get(B, k, j);
+
+    return M;
+}
+
+matrix expo(matrix M, int pow) {
+    if (pow == 0)
+        return matrix_identity(M.n1);
+
+    matrix ev = expo(M, pow / 2);
+
+    if (pow % 2 == 0) {
+        matrix ans = mult(ev, ev);
+        matrix_destroy(ev);
+        return ans;
+    }
+
+    matrix sq = mult(ev, ev);
+    matrix_destroy(ev);
+    matrix ans = mult(M, sq);
+    matrix_destroy(sq);
+    return ans;
 }
 
 void matrix_print(FILE *f, matrix m)
