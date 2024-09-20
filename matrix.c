@@ -67,6 +67,16 @@ matrix matrix_add(matrix m, matrix n)
   return res;
 }
 
+matrix matrix_mult_scal(matrix m, scalar v){
+  matrix res = matrix_create(m.n1, m.n2, 0.);
+  for(int i = 0; i < m.n1; i++){
+    for(int j = 0; j < m.n2; j++){
+      *matrix_get(res, i, j) = v* (*matrix_get(m,i,j));
+    } 
+  }
+  return res;
+}
+
 void matrix_print(FILE *f, matrix m)
 {
   if(!m.ok)
@@ -82,3 +92,4 @@ void matrix_print(FILE *f, matrix m)
     }
   }
 }
+

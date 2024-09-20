@@ -2,7 +2,6 @@
 
 #include "matrix.h"
 //Ceci est un commentaire
-
 int main(void)
 {
   // We consider matrix of double's

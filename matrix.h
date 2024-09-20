@@ -20,5 +20,5 @@ matrix matrix_add(matrix m, matrix n);
 void matrix_print(FILE *f, matrix m);
 
 matrix add_matrix(matrix m, matrix n);
-
+matrix matrix_mult_scal(matrix m, scalar v);
 #endif /* MATRIX_H */
